@@ -1,0 +1,39 @@
+{
+  "name": "@ridit/lens-sdk",
+  "version": "0.1.0",
+  "description": "SDK for building Lens addons",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "lens",
+    "addon",
+    "sdk",
+    "cli",
+    "ai"
+  ],
+  "author": "Ridit Jangra <riditjangra09@gmail.com> (https://ridit.space)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ridit-jangra/Lens"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.0.0"
+  }
+}
