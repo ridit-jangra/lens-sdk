@@ -8,6 +8,20 @@ export type ToolResult =
   | { kind: "text"; value: string }
   | { kind: "error"; value: string };
 
+export interface ToolFewShot {
+  /**
+   * The user message — typically a tool result or a usage example.
+   * e.g. "Here is the output from my-tool:\n\nsome result\n\nPlease continue..."
+   */
+  user: string;
+
+  /**
+   * The expected assistant response to the above user message.
+   * e.g. "Done — the tool returned: some result"
+   */
+  assistant: string;
+}
+
 export interface Tool<TInput = string> {
   /**
    * Tag name used in XML: <name>...</name>
@@ -56,4 +70,13 @@ export interface Tool<TInput = string> {
    * Defaults to showing the raw input string.
    */
   summariseInput?(input: TInput): string;
+
+  /**
+   * Optional: few-shot examples for this tool.
+   * Injected into the conversation history so the model learns how to
+   * invoke the tool and interpret its results correctly.
+   * Each entry is a user/assistant pair — typically showing a tool result
+   * followed by the correct model response.
+   */
+  fewShots?: ToolFewShot[];
 }
