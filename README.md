@@ -41,7 +41,7 @@ defineTool({
 
   execute: async (input, ctx) => {
     // ctx.repoPath — absolute path to the current repo
-    return `Result: ${input.arg}`;
+    return { kind: "text", value: `Result: ${input.arg}` };
   },
 });
 ```
@@ -82,7 +82,7 @@ defineTool({
       { cwd: ctx.repoPath },
     ).toString();
 
-    return `Recent commits:\n${output}`;
+    return { kind: "text", value: `Recent commits:\n${output}` };
   },
 });
 ```
@@ -102,52 +102,36 @@ will throw an error.
 
 ## `Tool<T>` interface
 
----
-
-Field Type Required Description
-
----
-
-`name` `string` ✅ XML tag name (example:
-`"write-file"`)
-
-`description` `string` ✅ One-line description
-used in the prompt
-
-`safe` `boolean` If `true`, runs without
-asking permission
-
-`permissionLabel` `string` Label shown in the
-permission prompt
-
-`systemPromptEntry` `() => string` ✅ Entry added to the AI
-system prompt
-
-`parseInput` `(body: string) => T` ✅ Parses the XML body into
-structured input
-
-`summariseInput` `(input: T) => string` Short summary shown in
-the UI
-
-`execute` `(input: T, ctx: ToolContext) => Promise<string>` ✅ Runs the tool
+| Field               | Type                                                  | Required | Description                               |
+| ------------------- | ----------------------------------------------------- | -------- | ----------------------------------------- |
+| `name`              | `string`                                              | ✅       | XML tag name (e.g. `"write-file"`)        |
+| `description`       | `string`                                              | ✅       | One-line description used in the prompt   |
+| `safe`              | `boolean`                                             |          | If `true`, runs without asking permission |
+| `permissionLabel`   | `string`                                              |          | Label shown in the permission prompt      |
+| `systemPromptEntry` | `() => string`                                        | ✅       | Entry added to the AI system prompt       |
+| `parseInput`        | `(body: string) => T`                                 | ✅       | Parses the XML body into structured input |
+| `summariseInput`    | `(input: T) => string`                                |          | Short summary shown in the UI             |
+| `execute`           | `(input: T, ctx: ToolContext) => Promise<ToolResult>` | ✅       | Runs the tool                             |
 
 ---
+
+## `ToolResult`
+
+The object returned from `execute`:
+
+| Field   | Type                | Description                              |
+| ------- | ------------------- | ---------------------------------------- |
+| `kind`  | `"text" \| "error"` | Whether the result is a success or error |
+| `value` | `string`            | The result string returned to the AI     |
 
 ---
 
 ## `ToolContext`
 
----
-
-Field Type Description
-
----
-
-`repoPath` `string` Absolute path to the current repo
-
-`provider` `string \| undefined` The active AI provider
-
----
+| Field      | Type                  | Description                       |
+| ---------- | --------------------- | --------------------------------- |
+| `repoPath` | `string`              | Absolute path to the current repo |
+| `provider` | `string \| undefined` | The active AI provider            |
 
 ---
 
@@ -161,10 +145,10 @@ When the AI wants to use a tool it emits XML like:
 
 Lens then:
 
-1.  Parses the body
-2.  Calls `parseInput`
-3.  Executes the tool
-4.  Returns the result to the AI
+1. Parses the body
+2. Calls `parseInput`
+3. Executes the tool
+4. Returns the result to the AI
 
 ---
 
