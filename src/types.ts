@@ -8,6 +8,8 @@ export type ToolResult =
   | { kind: "text"; value: string }
   | { kind: "error"; value: string };
 
+export type ToolTag = "read" | "net" | "write" | "delete" | "shell";
+
 export interface ToolFewShot {
   /**
    * The user message — typically a tool result or a usage example.
@@ -33,6 +35,11 @@ export interface Tool<TInput = string> {
    * Short description shown in system prompt and /help.
    */
   description: string;
+
+  /**
+   * Tag for the model to identify the usage of tool.
+   */
+  tag: ToolTag;
 
   /**
    * System prompt snippet explaining how to invoke this tool.

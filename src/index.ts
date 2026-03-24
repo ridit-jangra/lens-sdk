@@ -1,5 +1,11 @@
-import type { Tool, ToolContext, ToolResult } from "./types";
+import type {
+  Tool,
+  ToolContext,
+  ToolResult,
+  ToolTag,
+  ToolFewShot,
+} from "./types";
 import { defineTool } from "./define";
 
 export { defineTool };
-export type { Tool, ToolContext, ToolResult };
+export type { Tool, ToolContext, ToolResult, ToolTag, ToolFewShot };
