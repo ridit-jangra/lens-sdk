@@ -8,7 +8,17 @@ export type ToolResult =
   | { kind: "text"; value: string }
   | { kind: "error"; value: string };
 
-export type ToolTag = "read" | "net" | "write" | "delete" | "shell" | "git";
+export const TOOL_TAGS = {
+  read: "read",
+  net: "net",
+  write: "write",
+  delete: "delete",
+  shell: "shell",
+  git: "git",
+  find: "find",
+} as const;
+
+export type ToolTag = (typeof TOOL_TAGS)[keyof typeof TOOL_TAGS];
 
 export interface ToolFewShot {
   /**
