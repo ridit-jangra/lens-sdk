@@ -8,7 +8,7 @@ export type ToolResult =
   | { kind: "text"; value: string }
   | { kind: "error"; value: string };
 
-export type ToolTag = "read" | "net" | "write" | "delete" | "shell";
+export type ToolTag = "read" | "net" | "write" | "delete" | "shell" | "git";
 
 export interface ToolFewShot {
   /**
